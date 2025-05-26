@@ -1,18 +1,24 @@
-const express = require('express');
-const axios = require('axios');
+// auth/news.js
+import express from 'express';
+import axios from 'axios';
+import 'dotenv/config'; // Load environment variables
+
 const router = express.Router();
 
-const NEWS_API_KEY = process.env.NEWS_API_KEY;
+const GNEWS_API_KEY = process.env.GNEWS_API_KEY;
 
 router.get('/', async (req, res) => {
   try {
-    // Optional: you can add category query param handling here later
-    const response = await axios.get(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${NEWS_API_KEY}`);
+    if (!GNEWS_API_KEY) {
+      throw new Error('GNews API key is missing');
+    }
+    const response = await axios.get(`https://gnews.io/api/v4/top-headlines?lang=en&country=us&token=${GNEWS_API_KEY}`);
+    console.log('GNews API response:', response.data.articles); // Debug
     res.json(response.data.articles);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Failed to fetch news' });
+    console.error('GNews API Error:', error.message);
+    res.status(500).json({ message: 'Failed to fetch news', error: error.message });
   }
 });
 
-module.exports = router;
+export default router;
