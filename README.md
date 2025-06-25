@@ -1,4 +1,4 @@
-# Full-Stack News Aggregator Platform
+# NewsFusion : Full-Stack News Aggregator Platform
 
 Just launched: A smart, scalable platform that automatically scrapes real-time news, analyzes it using NLP, and organizes it for end users — all secured with JWT-based authentication.
 
